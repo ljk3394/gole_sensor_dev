@@ -1,0 +1,64 @@
+acquisition: 
+  enable: true
+  verbose: false
+  dt: 0.05
+calibration:
+  verbose: true
+shared_memory:
+  enable: true
+  namespace: robot
+plot:
+  dt: 0.05  
+  enable: true
+  ip: 192.168.100.77
+  port: 9870
+i2c_devices:
+  4:
+    0x4A:
+      type: BNO08X
+      name: imu
+      periods: # us 
+        accelerometer: 50000
+        gyroscope:     -1
+        orientation:   50000
+        gravity:       -1
+        magnetometer:  -1
+    # 0x6A:
+    #   type: ISM330DHCX
+    #   name: imu
+  5:
+    0x11:
+      type: AM4096
+      name: q_hl_3:11
+      offset: -1 # negative value will calibrate so that the current value to be zero
+      axis: -1   # +1 and -1: positive and negative rotation
+    0x12:
+      type: AM4096
+      name: q_kl_3:12
+      offset: -1
+      axis: +1
+  6:
+    0x13:
+      type: AM4096
+      name: q_hr_4:13
+      offset: -1
+      axis: +1
+    0x14:
+      type: AM4096
+      name: q_kr_4:14
+      offset: -1
+      axis: -1
+  7:
+    0x29:
+      type: VL53LX
+      name: tof
+      rate_limit:      0.25  # 0.25 MCPS by default, 0.1 MCPS for long-range setting
+      period_prerange:   14  #   14 PCLKs by default, 18 PCLKs for long-range setting
+      period_finalrange: 10  #   10 PCLKs by default, 14 PCLKs for long-range setting
+      timing_budget:  33000  # 33000 us by default, 20000 us for high-speed and 200000 for high-accuracy settings
+      timeout:           30  # ms
+      continuous: false      # false by default
+      # Long Range Setting: This increases the sensitivity of the sensor and extends its potential range, 
+      #                     but increases the likelihood of getting an inaccurate reading because of reflections from objects 
+      #                     other than the intended target. It works best in dark conditions.
+      # High-speed vs High-accuracy trade-off
